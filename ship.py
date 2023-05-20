@@ -11,4 +11,4 @@ class Ship:
         self.rect.midbottom = self.screen_rect.midbottom
     def blitme(self):
         '''指定位置绘制飞机'''
-        self.screen.bilt(self.image,self.rect)
+        self.screen.blit(self.image,self.rect)
