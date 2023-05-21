@@ -12,16 +12,32 @@ class AlienInvasion:
         pygame.display.set_caption("Alien Invasion")
         self.ship = Ship(self)
         #self.bg_color = (230,230,230)
+    def _check_events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RIGHT:
+                    self.ship.moving_right = True
+                elif event.key == pygame.K_LEFT:
+                    self.ship.moving_left = True
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_RIGHT:
+                    self.ship.moving_right = False
+                elif event.key == pygame.K_LEFT:
+                    self.ship.moving_left = False
+
+    def _update_screen(self):
+        #绘制所要求的平面
+        self.screen.fill(self.setting.bg_color)
+        self.ship.blitme()
+        #返回机制
+        pygame.display.flip()#对屏幕进行隐藏
     def run_game(self):
         while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    sys.exit()
-            #绘制所要求的平面
-            self.screen.fill(self.setting.bg_color)
-            self.ship.blitme()
-            #返回机制
-            pygame.display.flip()#对屏幕进行隐藏
+            self._check_events()
+            self.ship.update()
+            self._update_screen()
 
 if __name__ == '__main__':
     ai = AlienInvasion()
