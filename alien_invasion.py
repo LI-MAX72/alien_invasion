@@ -6,8 +6,8 @@ from ship import Ship
 class AlienInvasion:
     def __init__(self):
         pygame.init()
-        self.setting = Settings()
-        self.screen = pygame.display.set_mode((self.setting.screen_width,self.setting.screen_height))
+        self.settings = Settings()
+        self.screen = pygame.display.set_mode((self.settings.screen_width,self.settings.screen_height))
         #self.screen = pygame.display.set_mode((1200,800))
         pygame.display.set_caption("Alien Invasion")
         self.ship = Ship(self)
@@ -29,7 +29,7 @@ class AlienInvasion:
 
     def _update_screen(self):
         #绘制所要求的平面
-        self.screen.fill(self.setting.bg_color)
+        self.screen.fill(self.settings.bg_color)
         self.ship.blitme()
         #返回机制
         pygame.display.flip()#对屏幕进行隐藏
