@@ -22,6 +22,7 @@ class AlienInvasion:
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = True
         elif event.key == pygame.K_q:
+            pygame.quit()
             sys.exit()
         elif event.key == pygame.K_SPACE:
             self._fire_bullte()
@@ -34,8 +35,17 @@ class AlienInvasion:
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = False
     def _check_events(self):
+"""        running = True
+while running == True:
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            running = False  # Exiting the while loop
+screen.blit(background, (0,0))
+    pygame.display.update()
+pygame.quit() # Call the quit() method outside the while loop to end the application."""#网上相关的解决方案
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                pygame.quit()
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
