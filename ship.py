@@ -1,4 +1,5 @@
 import pygame
+
 class Ship:
     def __init__(self,ai_game):
         #初始化以及赋予初始位置
