@@ -27,22 +27,16 @@ class AlienInvasion:
         elif event.key == pygame.K_SPACE:
             self._fire_bullte()
     def _fire_bullte(self):
-        new_bullte = Bullet(self)
-        self.bulltes.add(new_bullte)
+        if len(self.bulltes) < self.settings.bullet_allowed:
+            new_bullte = Bullet(self)
+            self.bulltes.add(new_bullte)
     def _check_keyup_events(self,event):
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = False
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = False
     def _check_events(self):
-"""        running = True
-while running == True:
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            running = False  # Exiting the while loop
-screen.blit(background, (0,0))
-    pygame.display.update()
-pygame.quit() # Call the quit() method outside the while loop to end the application."""#网上相关的解决方案
+        #网上相关的解决方案
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -60,11 +54,17 @@ pygame.quit() # Call the quit() method outside the while loop to end the applica
             bullte.draw_bullet()
         #返回机制
         pygame.display.flip()#对屏幕进行隐藏
+    def _update_bulltes(self):
+        for bullte in self.bulltes.copy():
+            if bullte.rect.bottom <= 0:
+                self.bulltes.remove(bullte)
     def run_game(self):
         while True:
             self._check_events()
             self.ship.update()
             self.bulltes.update()
+            self._update_bulltes()
+            #print(len(self.bulltes))
             self._update_screen()
 
 if __name__ == '__main__':
