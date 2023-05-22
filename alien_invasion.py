@@ -3,6 +3,8 @@ import pygame
 from settings import Settings
 from ship import Ship
 from Bullet import Bullet
+from alien import Alien
+
 class AlienInvasion:
     def __init__(self):
         pygame.init()
@@ -15,7 +17,13 @@ class AlienInvasion:
         pygame.display.set_caption("Alien Invasion")
         self.ship = Ship(self)
         self.bulltes = pygame.sprite.Group()
+        self.aliens = pygame.sprite.Group()
+
+        self._create_fleet()
         #self.bg_color = (230,230,230)
+    def _create_fleet(self):
+        alien = Alien(self)
+        self.aliens.add(alien)
     def _check_keydown_events(self,event):
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = True
@@ -52,6 +60,7 @@ class AlienInvasion:
         self.ship.blitme()
         for bullte in self.bulltes.sprites():
             bullte.draw_bullet()
+        self.aliens.draw(self.screen)
         #返回机制
         pygame.display.flip()#对屏幕进行隐藏
     def _update_bulltes(self):
