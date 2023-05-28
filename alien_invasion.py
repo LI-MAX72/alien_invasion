@@ -21,9 +21,30 @@ class AlienInvasion:
 
         self._create_fleet()
         #self.bg_color = (230,230,230)
+    def _create_alien(self,alien_number,row_number):
+        alien = Alien(self)
+        alien_width,alien_height  = alien.rect.size
+        #alien_width = alien.rect.width
+        alien.x=alien_width+2*alien_width*alien_number
+        alien.y=alien.rect.height+2*alien.rect.height*row_number
+        alien.rect.y=alien.y
+        alien.rect.x=alien.x
+        self.aliens.add(alien)
     def _create_fleet(self):
         alien = Alien(self)
-        self.aliens.add(alien)
+        alien_width,alien_height  = alien.rect.size
+        #alien_width = alien.rect.width
+        available_space_x = self.settings.screen_width-(2*alien_width)
+        number_alien_x = available_space_x//(2*alien_width)
+        #计算外星人的行数
+        ship_height = self.ship.rect.height
+        available_space_y=(self.settings.screen_height-(3*alien_height)-ship_height)
+        number_alien_row = available_space_y//(2*alien_height)
+
+        for row_number in range(number_alien_row):
+            for alien_number in range(number_alien_x):
+                self._create_alien(alien_number,row_number)
+
     def _check_keydown_events(self,event):
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = True
