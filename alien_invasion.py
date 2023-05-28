@@ -88,6 +88,8 @@ class AlienInvasion:
         for bullte in self.bulltes.copy():
             if bullte.rect.bottom <= 0:
                 self.bulltes.remove(bullte)
+    def _update_aliens(self):
+        self.aliens.update()
     def run_game(self):
         while True:
             self._check_events()
@@ -96,6 +98,7 @@ class AlienInvasion:
             self._update_bulltes()
             #print(len(self.bulltes))
             self._update_screen()
+            self._update_aliens()
 
 if __name__ == '__main__':
     ai = AlienInvasion()
