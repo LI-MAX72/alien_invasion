@@ -6,6 +6,7 @@ from Bullet import Bullet
 from alien import Alien
 from time import sleep
 from game_stats import GameStats
+from button import Button
 class AlienInvasion:
     def __init__(self):
         pygame.init()
@@ -22,6 +23,7 @@ class AlienInvasion:
         self.aliens = pygame.sprite.Group()
 
         self._create_fleet()
+        self.play_buttom = Button(self,"Play")
         #self.bg_color = (230,230,230)
     def _create_alien(self,alien_number,row_number):
         alien = Alien(self)
@@ -41,7 +43,7 @@ class AlienInvasion:
         #计算外星人的行数
         ship_height = self.ship.rect.height
         available_space_y=(self.settings.screen_height-(3*alien_height)-ship_height)
-        number_alien_row = available_space_y//(2*alien_height)
+        number_alien_row = available_space_y//(2*alien_height)-4
 
         for row_number in range(number_alien_row):
             for alien_number in range(number_alien_x):
@@ -52,8 +54,9 @@ class AlienInvasion:
             self.ship.moving_right = True
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = True
-        elif event.key == pygame.K_q:
-            pygame.quit()
+        elif event.key == pygame.K_ESCAPE:
+            #print('a')
+            #pygame.quit()
             sys.exit()
         elif event.key == pygame.K_SPACE:
             self._fire_bullte()
@@ -76,7 +79,12 @@ class AlienInvasion:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
                 self._check_keyup_events(event)
-
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                self._check_play_button(mouse_pos)
+    def _check_play_button(self,mouse_pos):
+        if self.play_buttom.rect.collidepoint(mouse_pos):
+            self.stats.game_active = True
     def _update_screen(self):
         #绘制所要求的平面
         self.screen.fill(self.settings.bg_color)
@@ -84,6 +92,8 @@ class AlienInvasion:
         for bullte in self.bulltes.sprites():
             bullte.draw_bullet()
         self.aliens.draw(self.screen)
+        if not self.stats.game_active:
+            self.play_buttom.draw_button()
         #返回机制
         pygame.display.flip()#对屏幕进行隐藏
     def _update_bulltes(self):
