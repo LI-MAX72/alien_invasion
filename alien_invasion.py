@@ -83,8 +83,19 @@ class AlienInvasion:
                 mouse_pos = pygame.mouse.get_pos()
                 self._check_play_button(mouse_pos)
     def _check_play_button(self,mouse_pos):
-        if self.play_buttom.rect.collidepoint(mouse_pos):
+        button_clicked = self.play_buttom.rect.collidepoint(mouse_pos)
+        if button_clicked and not self.stats.game_active:
+            self.settings.initialize_dynamic_settings()
+            pygame.mouse.set_visible(False)
+            #重置信息
+            self.stats.reset_stats()
             self.stats.game_active = True
+            #清空
+            self.aliens.empty()
+            self.bulltes.empty()
+            #创建新的外星人，让飞船居中
+            self._create_fleet()
+            self.ship.center_ship()
     def _update_screen(self):
         #绘制所要求的平面
         self.screen.fill(self.settings.bg_color)
@@ -107,6 +118,7 @@ class AlienInvasion:
         if not self.aliens:
             self.bulltes.empty()
             self._create_fleet()
+            self.settings.increase_speed()
     def _update_aliens(self):
         self._check_fleet_edges()
         self.aliens.update()
@@ -130,6 +142,7 @@ class AlienInvasion:
             sleep(0.5)
         else:
             self.stats.game_active = False
+            pygame.mouse .set_visible(True)
 
 
 
