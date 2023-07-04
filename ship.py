@@ -1,8 +1,9 @@
 import pygame
-
-class Ship:
+from pygame.sprite import  Sprite
+class Ship(Sprite):
     def __init__(self,ai_game):
         #初始化以及赋予初始位置
+        Sprite.__init__(self)
         self.screen = ai_game.screen
         self.settings = ai_game.settings
         self.screen_rect = ai_game.screen.get_rect()
@@ -15,7 +16,6 @@ class Ship:
         #移动标志
         self.moving_right = False
         self.moving_left = False
-
     def update(self):
         """if self.moving_right:
             self.x += self.settings.ship_speed
